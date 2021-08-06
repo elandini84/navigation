@@ -31,7 +31,7 @@
 <module>
    <name>roslaunch</name>
    <parameters>amcl_map_from_ros.launch</parameters>
-   <workdir>/mnt/c/Projects/GIT/robotology/navigation/app/rosExamples/launch/</workdir>
+   <workdir>/home/user1/navigation/app/rosExamples/launch/</workdir>
    <node>console</node>
 </module>
 

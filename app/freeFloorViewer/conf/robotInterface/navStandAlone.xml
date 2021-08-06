@@ -7,18 +7,33 @@
 
 <!DOCTYPE robot PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">
 
-<robot name="locServer" build="2" portprefix="" xmlns:xi="http://www.w3.org/2001/XInclude">
+<robot name="navServer" build="2" portprefix="" xmlns:xi="http://www.w3.org/2001/XInclude">
     <devices>
-        <!-- *************** LOCALIZER *************** -->
-        <device name="odomLoc" type="odomLocalizer">
-            <group name="ODOMLOCALIZER_GENERAL">
-                <param extern-name="odomLocName" name="name"> /odomLocalizer </param>
+        <!-- ************* PATH PLANNER ************** -->
+        <device name="pathPlan" type="robotPathPlannerDev">
+            <group name="PATHPLANNER_GENERAL">
+                <param extern-name="pathPlanMapHz" name="publish_map_image_Hz"> 15 </param>
             </group>
-            <group name="INITIAL_POS">
-                <param extern-name="odomLocMap" name="initial_map"> emptyMap </param>
-                <param extern-name="odomLocX" name="initial_x"> 0.0 </param>
-                <param extern-name="odomLocY" name="initial_y"> 0.0 </param>
-                <param extern-name="odomLocTheta" name="initial_theta"> 0.0 </param>
+            <group name="NAVIGATION">
+                <param extern-name="pathPlanMinDist" name="min_waypoint_distance"> 0 </param>
+                <param extern-name="pathPlanUseOpt" name="use_optimized_path"> 1 </param>
+                <param extern-name="pathPlanEnableTryRec" name="enable_try_recovery"> 0 </param>
+                <param extern-name="pathPlanGoalTolLin" name="goal_tolerance_lin"> 0.05 </param>
+                <param extern-name="pathPlanGoalTolAng" name="goal_tolerance_ang"> 0.6 </param>
+                <param extern-name="pathPlanGoalMaxLinSpd" name="goal_max_lin_speed"> 0.45 </param>
+                <param extern-name="pathPlanGoalMaxAngSpd" name="goal_max_ang_speed"> 5.0 </param>
+                <param extern-name="pathPlanGoalMinLinSpd" name="goal_min_lin_speed"> 0.1 </param>
+                <param extern-name="pathPlanGoalMinAngSpd" name="goal_min_ang_speed"> 0.1 </param>
+                <param extern-name="pathPlanGoalAngGain" name="goal_ang_speed_gain"> 0.3 </param>
+                <param extern-name="pathPlanGoalLinGain" name="goal_lin_speed_gain"> 0.1 </param>
+                <param extern-name="pathPlanWayPt" name="waypoint_tolerance_lin"> 0.1 </param>
+                <param extern-name="pathPlanWayPt" name="waypoint_tolerance_ang"> 5 </param>
+                <param extern-name="pathPlanWayPt" name="waypoint_max_lin_speed"> 0.45 </param>
+                <param extern-name="pathPlanWayPt" name="waypoint_max_ang_speed"> 5.0 </param>
+                <param extern-name="pathPlanWayPt" name="waypoint_min_lin_speed"> 0.1 </param>
+                <param extern-name="pathPlanWayPt" name="waypoint_min_ang_speed"> 0.1 </param>
+                <param extern-name="pathPlanWayPt" name="waypoint_ang_speed_gain">  0.3</param>
+                <param extern-name="pathPlanWayPt" name="waypoint_lin_speed_gain"> 0.1 </param>
             </group>
             <group name="ODOMETRY">
                 <param extern-name="odomLocBroadPort" name="odometry_broadcast_port"> /baseControl/odometry:o </param>
