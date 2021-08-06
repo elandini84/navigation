@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  SPDX-FileCopyrightText: 2006-2021 Istituto Italiano di Tecnologia (IIT)
+  SPDX-License-Identifier: BSD-3-Clause
+-->
+
+<!DOCTYPE robot PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">
+
+<robot name="mapServer" build="2" portprefix="" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <devices>
+        <!-- **************** STORAGE **************** -->
+        <device name="mapStorage" type="map2DStorage">
+            <param extern-name="mapStorageName" name="name"> /mapServer/rpc </param>
+            <param extern-name="mapStorageCollection" name="mapCollection"> mapsExample </param>
+        </device>
+        <!-- **************** YARP NWS **************** -->
+        <device name="mapNwsYarp" type="map2D_nws_yarp">
+            <param extern-name="mapStorageName" name="name"> /map2D_nws_yarp/rpc </param>
+            <action phase="startup" level="5" type="attach">
+                <paramlist name="networks">
+                    <elem name="subdevicestorage"> mapStorage </elem>
+                </paramlist>
+            </action>
+            <action phase="shutdown" level="5" type="detach" />
+        </device>
+    </devices>
+</robot>

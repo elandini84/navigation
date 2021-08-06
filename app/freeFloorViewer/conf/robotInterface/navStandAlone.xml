@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  SPDX-FileCopyrightText: 2006-2021 Istituto Italiano di Tecnologia (IIT)
+  SPDX-License-Identifier: BSD-3-Clause
+-->
+
+<!DOCTYPE robot PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">
+
+<robot name="locServer" build="2" portprefix="" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <devices>
+        <!-- *************** LOCALIZER *************** -->
+        <device name="odomLoc" type="odomLocalizer">
+            <group name="ODOMLOCALIZER_GENERAL">
+                <param extern-name="odomLocName" name="name"> /odomLocalizer </param>
+            </group>
+            <group name="INITIAL_POS">
+                <param extern-name="odomLocMap" name="initial_map"> emptyMap </param>
+                <param extern-name="odomLocX" name="initial_x"> 0.0 </param>
+                <param extern-name="odomLocY" name="initial_y"> 0.0 </param>
+                <param extern-name="odomLocTheta" name="initial_theta"> 0.0 </param>
+            </group>
+            <group name="ODOMETRY">
+                <param extern-name="odomLocBroadPort" name="odometry_broadcast_port"> /baseControl/odometry:o </param>
+            </group>
+        </device>
+        <!-- **************** YARP NWS **************** -->
+        <device name="locNwsYarp" type="localization2D_nws_yarp">
+            <action phase="startup" level="5" type="attach">
+                <paramlist name="networks">
+                    <elem name="subdeviceodom"> odomLoc </elem>
+                </paramlist>
+            </action>
+            <action phase="shutdown" level="5" type="detach" />
+        </device>
+    </devices>
+</robot>
