@@ -1,0 +1,103 @@
+<application>
+<name>freeFloorViewer_testHead_cer04</name>
+
+<dependencies>
+</dependencies>
+
+<module>
+   <name>yarpdev</name>
+   <parameters>--device frameTransformServer --filexml_option fts_yarp_only.xml"</parameters>
+   <node>r1-base</node>
+</module>
+
+<module>
+    <name>yarprobotstatepublisher</name>
+    <parameters>--model /usr/local/src/robot/robots-configuration/CER04/cer.urdf</parameters>
+    <node>r1-base</node>
+</module>
+
+<module>
+   <name>baseControl</name>
+   <parameters>--context baseControl --from baseCtrl_cer.ini --skip_robot_interface_check</parameters>
+   <node>r1-base</node>
+</module>
+
+<module>
+   <name>joystickCtrl</name>
+   <parameters>--context joystickCtrl --from cer_linux.ini --force_configuration</parameters>
+   <node>r1-base</node>
+</module>
+
+<module>
+    <name>yarprobotinterface</name>
+    <parameters>--context freeFloorViewer --from mapStandAlone.ini</parameters>
+    <node>r1-base</node>
+</module>
+
+<module>
+    <name>yarprobotinterface</name>
+    <parameters>--context freeFloorViewer --from odomStandAlone.ini</parameters>
+    <node>r1-base</node>
+</module>
+
+<module>
+   <name>yarpdev</name>
+   <parameters>--device navigation2DServer --subdevice robotPathPlannerDev --context freeFloorViewer --from robotPathPlanner_cer02.ini</parameters>
+   <node>console</node>
+</module>
+
+<module>
+   <name>yarpdev</name>
+   <parameters>--from /usr/local/src/robot/robots-configuration/CER04/sensors/RealSense_conf.ini</parameters>
+   <node>r1-torso</node>
+</module>
+
+<module>
+   <name>freeFloorViewer</name>
+   <parameters>--context freeFloorViewer --from freeFloorViewer_cer04_torso.ini</parameters>
+   <node>r1-torso</node>
+</module>
+
+<module>
+   <name>yarpview</name>
+   <parameters>--name /view/floorView:i --out /view/floorClick:o --rightout /view/headClick:o</parameters>
+   <node>console</node>
+</module>
+
+<connection>
+  <from>/freeFloorViewer/floorEnhanced:o</from>
+  <to>/view/floorView:i</to>
+  <protocol>unix_stream</protocol>
+</connection>
+
+<connection>
+  <from>/view/floorClick:o</from>
+  <to>/freeFloorViewer/clicked_pos:i</to>
+  <protocol>tcp</protocol>
+</connection>
+
+<connection>
+  <from>/view/headClick:o</from>
+  <to>/freeFloorViewer/clicked_head:i</to>
+  <protocol>tcp</protocol>
+</connection>
+
+<connection>
+  <from>/robotGoto/control:o</from>
+  <to>/baseControl/control:i</to>
+  <protocol>udp</protocol>
+</connection>
+
+<connection>
+  <from>/robotPathPlanner/commands:o</from>
+  <to>/robotGoto/rpc</to>
+  <protocol>tcp</protocol>
+</connection>
+
+<connection>
+  <from>/joystickCtrl:o</from>
+  <to>/baseControl/joystick1:i</to>
+  <protocol>tcp</protocol>
+</connection>
+
+</application>
