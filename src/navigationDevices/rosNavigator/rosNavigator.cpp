@@ -526,13 +526,17 @@ bool rosNavigator::gotoTargetByAbsoluteLocation(Map2DLocation loc)
 
 bool rosNavigator::gotoTargetByRelativeLocation(double x, double y, double theta)
 {
-    if (m_navigation_status == navigation_status_idle)
+    if (m_navigation_status != navigation_status_moving)
     {
         Map2DLocation loc;
         loc.map_id = m_current_position.map_id;
-        loc.x = m_current_position.x - x;             //@@@THIS NEEDS TO BE FIXED
-        loc.y = m_current_position.y - y;             //@@@THIS NEEDS TO BE FIXED
-        loc.theta = m_current_position.theta - theta; //@@@THIS NEEDS TO BE FIXED
+        double a = m_current_position.theta * DEG2RAD;
+        //loc.x = m_current_position.x - x;             //@@@THIS SHOULD BE FIXED BY THE FOLLOWING LINE
+        loc.x = +x * cos(a) - y * sin(a) + m_current_position.x;
+        //loc.y = m_current_position.y - y;             //@@@THIS SHOULD BE FIXED BY THE FOLLOWING LINE
+        loc.y = +x * sin(a) + y * cos(a) + m_current_position.y;
+        //loc.theta = m_current_position.theta - theta; //@@@THIS SHOULD BE FIXED BY THE FOLLOWING LINE
+        loc.theta = m_current_position.theta + theta;
         return gotoTargetByAbsoluteLocation(loc);
     }
     yCError(ROS_NAV) << "A navigation task is already running. Stop it first";
@@ -541,13 +545,17 @@ bool rosNavigator::gotoTargetByRelativeLocation(double x, double y, double theta
 
 bool rosNavigator::gotoTargetByRelativeLocation(double x, double y)
 {
-    if (m_navigation_status == navigation_status_idle)
+    if (m_navigation_status != navigation_status_moving)
     {
         Map2DLocation loc;
         loc.map_id = m_current_position.map_id;
-        loc.x = m_current_position.x - x;         //@@@THIS NEEDS TO BE FIXED
-        loc.y = m_current_position.y - y;         //@@@THIS NEEDS TO BE FIXED
-        loc.theta = m_current_position.theta - 0; //@@@THIS NEEDS TO BE FIXED
+        double a = m_current_position.theta * DEG2RAD;
+        //loc.x = m_current_position.x - x;             //@@@THIS SHOULD BE FIXED BY THE FOLLOWING LINE
+        loc.x = +x * cos(a) - y * sin(a) + m_current_position.x;
+        //loc.y = m_current_position.y - y;             //@@@THIS SHOULD BE FIXED BY THE FOLLOWING LINE
+        loc.y = +x * sin(a) + y * cos(a) + m_current_position.y;
+        //loc.theta = m_current_position.theta - 0; //@@@THIS SHOULD BE FIXED BY THE FOLLOWING LINE
+        loc.theta = m_current_position.theta + 0;
         return gotoTargetByAbsoluteLocation(loc);
     }
     yCError(ROS_NAV) << "A navigation task is already running. Stop it first";
