@@ -1,4 +1,4 @@
-# Copyright (C) 2021 IIT Istituto Italiano di Tecnologia 
+# Copyright (C) 2021 IIT Istituto Italiano di Tecnologia
 # Author: Marco Randazzo marco.randazzo@iit.it
 # CopyPolicy: Released under the terms of the GNU GPL v2.0.
 
@@ -75,7 +75,7 @@ message(STATUS "YARP is version: ${YARP_VERSION}")
 
 yarp_configure_external_installation(${PROJECT_NAME} WITH_PLUGINS)
 
-#### Find iCub 
+#### Find iCub
 find_package(ICUB)
 
 list(APPEND CMAKE_MODULE_PATH ${ICUB_MODULE_PATH})

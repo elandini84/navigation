@@ -40,6 +40,7 @@
 #include <math.h>
 #include <mutex>
 #include <algorithm>
+#include <opencv2/opencv.hpp>
 
 #include "navigation_defines.h"
 
