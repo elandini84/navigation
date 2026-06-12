@@ -6,14 +6,17 @@
  * BSD-3-Clause license. See the accompanying LICENSE file for details.
  */
 
-#include "joystick2velocityCommand.h"
+#define _USE_MATH_DEFINES
+#include <cmath>
+
+#include "joystickCtrl2velocityCommand.h"
 
 #include <yarp/os/Log.h>
 #include <yarp/os/LogStream.h>
 #include <yarp/os/Value.h>
 #include <yarp/os/Bottle.h>
-#include <cmath>
-#define _USE_MATH_DEFINES
+
+
 //example
 //yarp connect /joystickCtrl:o /baseControl /input /joystick:i tcp+recv.portmonitor+type.dll+file.joy2vel
 
